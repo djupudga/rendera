@@ -1,0 +1,42 @@
+{
+  "name": "rendera",
+  "version": "0.0.1",
+  "module": "index.ts",
+  "type": "module",
+  "license": "MIT",
+  "private": true,
+  "bin": {
+    "rendera": "bin/rendera"
+  },
+  "scripts": {
+    "test": "bun test",
+    "lint": "bun run oxlint .",
+    "typecheck": "bun run tsc --noEmit",
+    "format": "bun run prettier . --write",
+    "all": "bun run typecheck && bun run lint && bun run format && bun run test"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "oxlint": "^1.26.0",
+    "prettier": "^3.6.2"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@types/ejs": "^3.1.5",
+    "ejs": "^3.1.10",
+    "handlebars": "^4.7.8",
+    "indent-string": "^5.0.0",
+    "meow": "^14.0.0",
+    "yaml-cfn": "^0.3.2"
+  },
+  "prettier": {
+    "singleQuote": false,
+    "trailingComma": "all",
+    "semi": false,
+    "tabWidth": 2,
+    "printWidth": 80,
+    "useTabs": false
+  }
+}

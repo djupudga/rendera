@@ -1,0 +1,59 @@
+name: Create Release and Upload Artifacts
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    name: Build and Create Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # Add any setup steps needed for your build environment if not standard
+      # Example: Install specific build tools
+      # - name: Install build dependencies
+      #   run: sudo apt-get update && sudo apt-get install -y build-essential make your-compiler
+      - name: Setup bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Build artifacts
+        run: |
+          bun i
+          bun test
+          make bundle
+
+      - name: Create GitHub Release and Upload Artifacts
+        uses: softprops/action-gh-release@v2 # A popular action for creating releases
+        with:
+          # The action automatically uses the pushed tag name (github.ref_name)
+          # Files to upload as release assets.
+          # IMPORTANT: Replace with the actual paths/names of your generated executables.
+          # You can use wildcards if needed.
+          files: |
+            dist/rendera-darwin-arm64 
+            dist/rendera-darwin-x64
+            dist/rendera-linux-arm64
+            dist/rendera-linux-x64
+            dist/rendera-linux-x64-musl
+          # Optional: Customize the release name (defaults to the tag name)
+          # name: "My Awesome App ${{ github.ref_name }}"
+          # Optional: Define release notes body explicitly
+          # body: "This release includes features X, Y, and Z."
+          # Optional: Point to a file containing release notes
+          # body_path: "CHANGELOG.md"
+          # Optional: Mark as a pre-release (true) or a full release (false - default)
+          # prerelease: false
+          # Optional: Create as a draft (true) or published release (false - default)
+          # draft: false
+        # The GITHUB_TOKEN is automatically provided by GitHub Actions
+        # env:
+        #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This is usually implicit and not needed here explicitly
