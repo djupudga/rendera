@@ -19,6 +19,8 @@ const cli = meow(
       Template engine (ejs or handlebars)
     -e, --env
       Path to YAML file containing environment variables.
+    -H, --helpers
+      Path to a JavaScript file containing custom helper functions.
     -c, --config
       Path to configuration file.
     --help

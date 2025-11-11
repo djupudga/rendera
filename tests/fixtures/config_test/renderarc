@@ -1,0 +1,5 @@
+render: handlebars
+data: foo.yml
+env: bar.yml
+helpers: helpers.js
+

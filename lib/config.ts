@@ -13,15 +13,16 @@ export function applyConfig(flags: Flags): Flags {
       const file = fs.readFileSync(configPath, "utf8").toString()
       const cfg = yamlParse(file) as Record<string, any>
       const validKeys = [
-        "env",
+        "data",
         "render",
         "env",
         "config",
+        "helpers",
       ] as (keyof Flags)[]
       for (const [key, value] of Object.entries(cfg)) {
         if (!validKeys.includes(key as keyof Flags)) {
           throw new Error(
-            `Error reading .crustomizerc - unknown config key: ${key}`,
+            `Error reading ${configPath} - unknown config key: ${key}`,
           )
         }
         if (flags[key as keyof Flags] == undefined) {
