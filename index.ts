@@ -23,6 +23,8 @@ const cli = meow(
       Path to a JavaScript file containing custom helper functions.
     -c, --config
       Path to configuration file.
+    --ci
+      CI mode, disables stdin
     --help
       Show this text
     --version
@@ -84,6 +86,10 @@ const cli = meow(
         type: "string",
         shortFlag: "c",
         default: ".renderarc",
+      },
+      ci: {
+        type: "boolean",
+        default: false,
       },
       helpers: {
         type: "string",
@@ -147,7 +153,7 @@ try {
   let flags = applyConfig(cli.flags)
   let source, target: string | undefined = undefined 
   let standardInData: string | undefined = undefined
-  if (!process.stdin.isTTY) {
+  if (!cli.flags.ci && !process.stdin.isTTY) {
     standardInData = await new Response(Bun.stdin.stream()).text()
     if (cli.input.length == 1) {
       target = cli.input[0]
